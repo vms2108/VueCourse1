@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home work 1</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sample">
+            <div v-show="!show">
+                    Email <br>
+                    <input type="email" v-model="info.email">
+                    <hr>
+                    Name <br>
+                    <input type="text" v-model="info.name">
+                    <hr>
+                    Last Name <br>
+                    <input type="text" v-model="info.surname">
+                    <hr>
+                    Phone <br>
+                    <input type="text" v-model="info.phone">
+                    <hr>
+                    Guests <button class="btn btn-success"
+                            @click="addGuest">
+                        +
+                    </button>
+                    <hr>
+                    <div v-for="(guest, index) in info.guests">
+                        <p  @dblclick="del(index)">Guest {{index+1}}</p>   
+                        <input type="text" v-model="info.guests[index]">
+                        <hr>
+                    </div>
+                    <button class="btn btn-primary"
+                            @click="send">
+                        Send data
+                    </button>
+            </div>
+            <div v-show="show">
+                <h2>All done!</h2>
+                <table class="table table-bordered">
+                    <tr v-for="(value, key, index) in info">
+                        <td v-if="key !== 'guests'">{{key}}</td>
+                        <td v-if="key !== 'guests'">{{value}}</td>
+                    </tr>
+                    <tr v-if="info.guests.length">
+                        <td>guests</td> 
+                        <td><div v-for="(guest, index) in info.guests">{{info.guests[index]}}</div></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        let sample = new Vue({
+            el: '.sample',
+            data: {
+                info: {
+                    name: '',
+                    surname: '',
+                    email: '',
+                    phone: '',
+                    guests: []                   
+                },
+                i: 0,
+                show: false
+            },
+            methods: {
+                addGuest(){
+                    this.i = this.i + 1;
+                    this.info.guests.push('Guest '+ this.i);
+                },
+                send(){
+                    this.show = !this.show;
+                },
+                check(name){
+                    console.log(name);
+                    return name !== 'guests';
+                },
+                del(index) {
+                    this.info.guests.splice(index, 1);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
